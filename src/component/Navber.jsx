@@ -158,12 +158,12 @@ const handleRemoveItem=(item)=>{
                </div> */}
                </>
                :
-               <h1 className='text-4xl font-bold text-black text-center pt-[200px]'>Card is Empty</h1>
+               <h1 className='text-4xl font-bold text-black text-center pt-[20px]'>Card is Empty</h1>
                 
              }
           </div>
 
-         <div className='bg-primary-light flex flex-col gap-3 py-4'>
+         <div className='bg-primary-light flex flex-col gap-3 py-4 mt-4'>
             <h4 className='text-xl font-semibold'>OrderSummary</h4>
                <p className='text-xl font-normal'>SelectItem :{products}</p>
               <p className='font-bold  text-xl'>Total:${total}</p>
