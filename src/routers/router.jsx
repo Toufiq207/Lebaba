@@ -6,6 +6,7 @@ import Searce from "../pages/searce/Searce";
 import Soppage from "../shop/Soppage";
 import SingleProduct from "../shop/productDetails/SingleProduct";
 import Login from "../component/Login";
+import Register from "../component/Register";
 
 
 const router = createBrowserRouter([
@@ -51,7 +52,13 @@ const router = createBrowserRouter([
           path: "/login",
     element: <Login/>,
     
-  }
+  },
+  {
+     
+          path: "/register",
+    element: <Register/>,
+    
+  },
 ]);
 
 export default router
