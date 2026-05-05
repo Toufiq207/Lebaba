@@ -46,6 +46,7 @@ window.scrollTo({top:0})
           <div className='w-full md:w-1/2'>
             <h4 className='text-2xl  font-bold'>{item.name}</h4>
 
+                  <p   className='text-xl text-gray-400 mb-4 font-medium'>{item.description}</p> 
                  
                  <p   className='text-xl font-medium'>${item.price}</p>
 
@@ -53,7 +54,6 @@ window.scrollTo({top:0})
           
                  
              
-                 {/* <p   className='text-xl text-gray-400 mb-4 font-medium'>{item.description}</p> */}
                   
                     <div className='mb-6'>
 
