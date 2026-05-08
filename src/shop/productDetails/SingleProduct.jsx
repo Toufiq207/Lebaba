@@ -19,7 +19,9 @@ const SingleProduct = () => {
 window.scrollTo({top:0})
 
   },[])
-
+  
+  
+  
   return (
     <div>
       <Container>
@@ -36,7 +38,7 @@ window.scrollTo({top:0})
             <i className="ri-arrow-right-s-line"></i>
             <span className='hover:text-red-500'><Link to="/shop">Shop</Link></span>
             <i className="ri-arrow-right-s-line"></i>
-            <span className='hover:text-red-500'>product name</span>
+            <span className='hover:text-red-500'>{item.name}</span>
           </div>
           
         </div>
@@ -67,7 +69,7 @@ window.scrollTo({top:0})
                      
                     </div>
 
-                    <button  className="inline-block py-2 px-5 bg-red-600 hover:bg-red-700 transition rounded-2xl text-white text-sm sm:text-base md:text-lg"> Add To Cart</button>
+                    <button className="inline-block py-2 px-5 bg-red-600 hover:bg-red-700 transition rounded-2xl text-white text-sm sm:text-base md:text-lg"> Add To Cart</button>
              
           </div>
         </div>

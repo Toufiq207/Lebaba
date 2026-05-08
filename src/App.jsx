@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div>
  <Navber/>
-<div className='pt-[30px]'>
+<div className='pt-[70px]'>
   <Outlet/>
 </div>
       

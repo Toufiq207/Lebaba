@@ -13,6 +13,7 @@ const dispatch= useDispatch()
 const [total,setTotal]=useState(0)
 const [products,setProducts]=useState(0)
     const [iscartOpen, setIscartOpen]=useState(false)
+    const [ismenu,setIsmenu]=useState(false)
 
     const data=useSelector((state)=>state.cart.value)
     // console.log(data);
@@ -71,19 +72,48 @@ const handleRemoveItem=(item)=>{
     dispatch(removeItem(item))
     
 }
+const handelemenu=()=>{
+    setIsmenu(!ismenu)
+}
 
   return (
 
-  <section className='fixed w-full z-50'>
+  <section className='fixed py-[20px] w-full z-50'>
      <Container >
         <header className=' relative'>
 <nav className='max-w-screen-2xl  mx-auto px-4 flex items-center justify-between '>
-    <ul className='flex items-center  gap-2'>
+    <div className='md:block hidden'>
+        <ul className='flex items-center  gap-2'>
         <Link to="/"><li className='hover:text-primary'>Home</li></Link>
        <Link to="/shop"> <li className='hover:text-primary'>Shop</li></Link>
        <Link to="/pages"> <li className='hover:text-primary'>Page</li></Link>
         <Link to="/contact"><li className='hover:text-primary'>Contact</li></Link>
     </ul>
+    </div>
+<div className='block md:hidden' >
+    
+    {
+ismenu ?<i onClick={ handelemenu} className="ri-close-large-fill"></i>: <i onClick={ handelemenu} className="ri-bar-chart-horizontal-fill">
+        
+        
+        </i>
+    }
+
+    {
+ismenu &&
+<div className='flex justify-center items-center bg-white py-4 px-4 gap-2 rounded-md absolute left-7 top-16'>
+<ul className='flex flex-col items-center  gap-2'>
+        <Link to="/"><li className='hover:text-primary'>Home</li></Link>
+       <Link to="/shop"> <li className='hover:text-primary'>Shop</li></Link>
+       <Link to="/pages"> <li className='hover:text-primary'>Page</li></Link>
+        <Link to="/contact"><li className='hover:text-primary'>Contact</li></Link>
+    </ul>
+
+</div>
+}
+   </div >
+
+ 
     {/* logo */}
     <div className="text-2xl hover:text-primary font-extrabold text-[var(--text-dark)] font-[var(--header-font)]">
         <Link to="/">Lebaba <span>.</span></Link>
