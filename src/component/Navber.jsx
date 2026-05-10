@@ -276,7 +276,7 @@ Logout
   </button>
 
   <button className="py-2 px-5 bg-green-600 hover:bg-green-700 transition rounded-2xl text-white text-sm sm:text-base md:text-lg">
- <span className='mr-2'>  Proceed Checkout </span><i class="ri-bank-card-2-line"></i>
+ <span className='mr-2'>  Proceed Checkout </span><i className="ri-bank-card-2-line"></i>
   </button>
      </div>
          </div>
