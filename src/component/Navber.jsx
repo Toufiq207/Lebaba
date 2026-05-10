@@ -5,16 +5,19 @@ import { Link } from 'react-router-dom'
 import Container from '../component/Container'
 import { decrement, increment, removeAll, removeItem } from '../slice/cartSlice'
 
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+
 // import productData from '../../src/data/products.json'
 // import Image from '../component/Image'
 const Navber = () => {
-
+const auth = getAuth();
 const dispatch= useDispatch()
 const [total,setTotal]=useState(0)
 const [products,setProducts]=useState(0)
     const [iscartOpen, setIscartOpen]=useState(false)
     const [ismenu,setIsmenu]=useState(false)
-
+    const [user,setUser]=useState(null)
+const [showLogout,setShowLogout]=useState(false)
     const data=useSelector((state)=>state.cart.value)
     // console.log(data);
     
@@ -76,6 +79,27 @@ const handelemenu=()=>{
     setIsmenu(!ismenu)
 }
 
+
+const handleLogout=()=>{
+    signOut(auth)
+}
+
+
+useEffect(()=>{
+
+const unsubscribe = onAuthStateChanged(auth,(currentUser)=>{
+
+if(currentUser){
+    setUser(currentUser)
+}else{
+    setUser(null)
+}
+
+})
+
+return ()=> unsubscribe()
+
+},[])
   return (
 
   <section className='fixed py-[20px] w-full z-50'>
@@ -125,9 +149,53 @@ ismenu &&
             <button onClick={handleOpen} className='hover:text-primary'><i className="ri-shopping-bag-line"></i></button>
             <sup className='text-sm text-white inline-block px-1.5 rounded-full bg-primary text-center'>{products}</sup>
         </span>
-        <span className='hover:text-primary'>
-            <Link to='login'><i className="ri-user-line"></i></Link>
-        </span>
+{
+user ? (
+
+<div className='relative cursor-pointer'>
+
+<div
+className='flex items-center gap-2'
+onClick={()=>setShowLogout(!showLogout)}
+>
+
+<div className='w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center uppercase font-bold'>
+   {user.email.slice(0,1)}
+</div>
+
+<p className='hidden md:block text-sm'>
+   {user.email}
+</p>
+
+</div>
+
+{
+showLogout && (
+<div className='absolute right-0 top-10 bg-white shadow-lg rounded-md p-3 min-w-[120px]'>
+
+<button
+onClick={handleLogout}
+className='text-red-500 hover:text-red-700'
+>
+Logout
+</button>
+
+</div>
+)
+}
+
+</div>
+
+) : (
+
+<span className='hover:text-primary'>
+   <Link to='/login'>
+      <i className="ri-user-line"></i>
+   </Link>
+</span>
+
+)
+}
     </div>
 </nav>
 {
