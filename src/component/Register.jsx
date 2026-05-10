@@ -1,28 +1,100 @@
+import { log } from 'firebase/firestore/pipelines'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
+  import { ToastContainer, toast } from 'react-toastify';
 const Register = () => {
+const auth = getAuth();
+    const [username,setUsername]=useState('')
+    const [email,setEmail]=useState('')
+    const [password,setPassword]=useState('')
+    const nevigate=useNavigate()
 
+    const handleUsername=(e)=>{
+      setUsername(e.target.value);
+      
+    }
+    const handleEmail=(e)=>{
+    setEmail(e.target.value);
+      
+    }
+    const handlePassword=(e)=>{
+      setPassword(e.target.value);
+      
+    }
+
+
+
+
+    const handleregister=()=>{
+ if(!email){
+  toast.error("Please Enter your email")
+ }else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+    toast.error("Please Enter valied email")
+ }
+ 
+ 
+ else if(!password){
+    toast.error("Please Enter your password")
+ }else if(!username){
+    toast.error("Please Enter your username")
+ }else{
+
+   createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+   
+
+  toast.success("registration done");
+
+  setTimeout(()=>{ nevigate("/login")},2000)
+
+  
     
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+      // toast.error( errorCode);
+    
+  
+  });
+    
+ }
+      
+    }
   return (
        <section className='flex items-center justify-center h-screen'>
+
+      <ToastContainer
+position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick={false}
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+
+/>
         <div className='max-w-sm border shadow-2xl bg-white mx-auto p-8'>
           <h2 className='text-2xl font-semibold pt-5'>Please Register</h2>
-          <form  className='pt-8 flex  flex-col gap-y-2'>
+          <div  className='pt-8 flex  flex-col gap-y-2'>
 
- <input  type="text" name='username' id='username' placeholder='Enter Username' required
+ <input onChange={handleUsername}  type="text" name='username' id='username' placeholder='Enter Username' required
              className="w-full bg-gray-100 focus:outline-none px-5 py-3"  />
 
 
-             <input  type="email" name='email' id='email' placeholder='Enter email' required
+             <input onChange={handleEmail}  type="email" name='email' id='email' placeholder='Enter email' required
              className="w-full bg-gray-100 focus:outline-none px-5 py-3"  />
-             <input   type="password" name='password' id='password' placeholder='Enter password' required
+             <input onChange={handlePassword}   type="password" name='password' id='password' placeholder='Enter password' required
              className="w-full bg-gray-100 focus:outline-none px-5 py-3"  />
             
           
 
-           <button  className="inline-block py-2 px-5 mt-5 bg-red-500 hover:bg-blue-500 transition rounded-2xl text-white text-sm sm:text-base md:text-lg">Register</button>
-          </form>
+           <button onClick={handleregister}  className="inline-block py-2 px-5 mt-5 bg-red-500 hover:bg-blue-500 transition rounded-2xl text-white text-sm sm:text-base md:text-lg">Register</button>
+          </div>
           <p className='my-5 italic text-sm text-center '>Have an account? Please <Link  to="/login" className='text-red-600 hover:text-blue-600 underline '>Login </Link> here.</p>
         </div>
     </section>
