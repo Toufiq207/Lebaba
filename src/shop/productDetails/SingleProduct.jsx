@@ -5,10 +5,10 @@ import ProductData from '../../data/products.json'
 import Image from '../../component/Image'
 import RatingStar from '../../component/RatingStar'
 
-
+import { useDispatch } from 'react-redux'
+import { cart } from '../../slice/cartSlice'
 const SingleProduct = () => {
-
-
+ const dispatch=useDispatch()
   let SingleProduct=useParams()
 
 // console.log(SingleProduct);
@@ -20,7 +20,17 @@ window.scrollTo({top:0})
 
   },[])
   
+    const handleaddToCart=(product)=>{
   
+   
+   dispatch(cart({
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity:1
+    }));
+  
+    }
   
   return (
     <div>
@@ -69,7 +79,7 @@ window.scrollTo({top:0})
                      
                     </div>
 
-                    <button className="inline-block py-2 px-5 bg-red-600 hover:bg-red-700 transition rounded-2xl text-white text-sm sm:text-base md:text-lg"> Add To Cart</button>
+                    <button onClick={()=>handleaddToCart(item)} className="inline-block py-2 px-5 bg-red-600 hover:bg-red-700 transition rounded-2xl text-white text-sm sm:text-base md:text-lg"> Add To Cart</button>
              
           </div>
         </div>
