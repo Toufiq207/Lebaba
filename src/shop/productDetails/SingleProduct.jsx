@@ -53,7 +53,7 @@ window.scrollTo({top:0})
           
         </div>
 
-        <div className='flex flex-col md: flex-row items-center gap-8 pt-[100px]'>
+        <div className='flex flex-col md:flex-row items-center gap-8 pt-[100px]'>
           <div className='w-full md:w-1/2'><Image className='rounded-md w-full' src={item.image}/></div>
           <div className='w-full md:w-1/2'>
             <h4 className='text-2xl  font-bold'>{item.name}</h4>
