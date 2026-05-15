@@ -7,6 +7,7 @@ import Soppage from "../shop/Soppage";
 import SingleProduct from "../shop/productDetails/SingleProduct";
 import Login from "../component/Login";
 import Register from "../component/Register";
+import Contact from "../pages/Contact";
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
         {
           path: "/shop/:id",
     element: <SingleProduct/>,
+    },
+        {
+          path: "/contact",
+    element: <Contact/>,
     },
     //     {
     //       path: "/pages",
