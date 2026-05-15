@@ -4,10 +4,20 @@ import { Link, useParams } from 'react-router-dom'
 import ProductData from '../../data/products.json'
 import Image from '../../component/Image'
 import RatingStar from '../../component/RatingStar'
-
+import Avatar from '../../assets/avatar.png'
 import { useDispatch } from 'react-redux'
 import { cart } from '../../slice/cartSlice'
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useState } from 'react'
+import { getDatabase, ref, set, push, onValue } from "firebase/database";
 const SingleProduct = () => {
+  const auth = getAuth();
+    const db = getDatabase();
+const [comment,setComment]=useState("")
+const [allcomment,setAllcomment]=useState([])
+
+const [user, setUser] = useState(null);
+
  const dispatch=useDispatch()
   let SingleProduct=useParams()
 
@@ -31,6 +41,52 @@ window.scrollTo({top:0})
     }));
   
     }
+    const handleComent=(e)=>{
+    setComment(e.target.value);
+      
+    }
+    const handleSubmit=()=>{
+
+ if(!comment){
+  alert("Please enter comment ");
+  
+ }else{
+   set(push(ref(db, `allcomment/${SingleProduct.id}`)), {
+     name:comment
+  }).then(()=>{
+    // console.log("data gese");
+    setComment("")
+    
+  })
+ }
+}
+
+    
+
+    useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  return () => unsubscribe();
+}, []);
+   
+
+useEffect(() => {
+  const starCountRef = ref(db, `allcomment/${SingleProduct.id}`);
+
+  onValue(starCountRef, (snapshot) => {
+    const arr = [];
+
+    snapshot.forEach(item => {
+      arr.push(item.val());
+    });
+
+    setAllcomment([...arr].reverse());
+
+  });
+
+}, [SingleProduct.id]);
   
   return (
     <div>
@@ -85,7 +141,30 @@ window.scrollTo({top:0})
         </div>
                  
               
+{
+    user &&
+    <div className='pt-[50px] pl-4'>
+  <h1 className='text-4xl text-2xl-black font-bold pb-2'>All Comment</h1>
 
+  <textarea value={comment} onChange={handleComent}  className='md:w-1/4 w-full border py-2 'placeholder='Write your comment'></textarea> <br />
+  <button onClick={handleSubmit} className="inline-block py-2  px-5 bg-red-600 hover:bg-red-700 transition rounded-2xl text-white text-sm sm:text-base md:text-lg"><i className="ri-pencil-fill"></i> Add a new comment</button>
+  {/* {
+    arr.map((item,index)=>(
+      <li key={index}>{item.name}</li>
+    ))
+  } */}
+ <div className='flex flex-col gap-3 pt-5'>
+   {
+    allcomment.map((item,index)=>(
+      <div  key={index}  className='flex items-center gap-2'>
+        <Image className='w-[40px]' src={Avatar }/>
+        <p className='text-xl font-semibold'>{item.name}</p>
+      </div>
+    ))
+  }
+ </div>
+</div>
+}
                
                 </>
                
