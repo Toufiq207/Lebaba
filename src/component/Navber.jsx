@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom'
 // import CartModel from '../shop/CartModel'
 import Container from '../component/Container'
 import { decrement, increment, removeAll, removeItem } from '../slice/cartSlice'
-
+import { useNavigate } from "react-router-dom"
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 // import productData from '../../src/data/products.json'
 // import Image from '../component/Image'
 const Navber = () => {
 const auth = getAuth();
+const navigate = useNavigate()
 const dispatch= useDispatch()
 const [total,setTotal]=useState(0)
 const [products,setProducts]=useState(0)
@@ -100,6 +101,16 @@ if(currentUser){
 return ()=> unsubscribe()
 
 },[])
+
+const handleCheckout = () => {
+
+       if(!user){
+      navigate("/login")
+      return
+   }else{
+   navigate("/checkout")
+   }
+}
   return (
 
   <section className='fixed py-[20px] w-full z-50'>
@@ -275,9 +286,28 @@ Logout
 <span className='mr-2'> Clear Cart</span> <i className="ri-delete-bin-line"></i>
   </button>
 
-  <button className="py-2 px-5 bg-green-600 hover:bg-green-700 transition rounded-2xl text-white text-sm sm:text-base md:text-lg">
- <span className='mr-2'>  Proceed Checkout </span><i className="ri-bank-card-2-line"></i>
-  </button>
+ {
+user && (
+<button
+onClick={handleCheckout}
+// className="py-2 px-5 bg-green-600 hover:bg-green-700 transition rounded-2xl text-white text-sm sm:text-base md:text-lg"
+
+disabled={data.length === 0}
+className={`py-2 px-5 rounded-2xl text-white text-sm sm:text-base md:text-lg
+${data.length === 0
+? "bg-gray-400 cursor-not-allowed"
+: "bg-green-600 hover:bg-green-700"}
+`}
+
+>
+ <span className='mr-2'>
+   Proceed Checkout
+ </span>
+
+ <i className="ri-bank-card-2-line"></i>
+</button>
+)
+}
      </div>
          </div>
 </div>
