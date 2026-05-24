@@ -1,7 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import Container from '../component/Container'
-import { getDatabase, ref, push, set } from "firebase/database";
+import { getDatabase, ref, push, set, onValue  } from "firebase/database";
+import { ToastContainer ,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Cheakout = () => {
     const data = useSelector((state)=>state.cart.value)
@@ -10,28 +12,42 @@ const total = data.reduce(
 (acc,item)=> acc + item.price * item.quantity,
 0
 )
- const handleOrder = async () => {
-    try {
-      const orderRef = push(ref(db, "orders"))
+const handleOrder = async () => {
+  try {
+    const orderRef = push(ref(db, "orders"))
 
-      await set(orderRef, {
-        products: data,
-        total: total,
-        createdAt: new Date().toISOString(),
-        status: "pending"
-      })
+    await set(orderRef, {
+      products: data,
+      total,
+      createdAt: Date.now(),
+      status: "pending"
+    })
 
-      alert("Order Placed Successfully ✅")
+    toast.success("Order Placed Successfully")
 
-    } catch (error) {
-      console.log(error)
-      alert("Order Failed ❌")
-    }
+  } catch (error) {
+    console.log(error)
+    toast.error("Order Failed")
   }
+}
+
   return (
    <section className='py-28 bg-gray-100 min-h-screen'>
 
 <Container>
+         <ToastContainer
+position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick={false}
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+
+/>
 
 <div className='grid md:grid-cols-2 gap-8'>
 
