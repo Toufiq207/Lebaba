@@ -1,14 +1,33 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import Container from '../component/Container'
+import { getDatabase, ref, push, set } from "firebase/database";
 
 export const Cheakout = () => {
     const data = useSelector((state)=>state.cart.value)
-
+const db= getDatabase()
 const total = data.reduce(
 (acc,item)=> acc + item.price * item.quantity,
 0
 )
+ const handleOrder = async () => {
+    try {
+      const orderRef = push(ref(db, "orders"))
+
+      await set(orderRef, {
+        products: data,
+        total: total,
+        createdAt: new Date().toISOString(),
+        status: "pending"
+      })
+
+      alert("Order Placed Successfully ✅")
+
+    } catch (error) {
+      console.log(error)
+      alert("Order Failed ❌")
+    }
+  }
   return (
    <section className='py-28 bg-gray-100 min-h-screen'>
 
@@ -109,7 +128,7 @@ ${total}
 
 </div>
 
-<button
+<button onClick={handleOrder}
 className='w-full mt-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition'
 >
 Place Order
